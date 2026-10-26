@@ -80,6 +80,10 @@ Settings are stored in `ue4ss/Mods/ClanPerformance/preferences.json`. Updates pr
 
 Open **Camera & Comfort** in Performance. It uses the same game menus, fonts and controller navigation as the other pages.
 
+| View & motion | Camera controls |
+| --- | --- |
+| ![Motion blur, exploration FOV, camera shake and sprint effects](docs/images/camera-comfort.jpg) | ![Camera smoothing and separate horizontal and vertical sensitivity](docs/images/camera-controls.jpg) |
+
 | Setting | Options |
 | --- | --- |
 | Motion blur | Game default or Off, independent of other post processing |
