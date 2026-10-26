@@ -2,22 +2,24 @@ local dir=debug.getinfo(1,'S').source:gsub('^@',''):match('^(.*[/\\])')
 local O=dofile(dir..'options.lua');local M={}
 function M.new(ctx,controller,meter)
  local page='presets';local draft;local pendingText,meterText;local api={};local lastSeconds;local savedPage=1
+ local comfortPage='view'
  local function invoke(p,fn)local ok,why=fn();if not ok then p.notify(why)else p.refresh()end end
  function api.open()draft=nil;page='presets'end
  function api.navigate(delta)
   if controller.status().pending then return false end
-  local pages={'presets','image','world','frames','measure','saved'}
+  local pages={'presets','image','world','comfort','frames','measure','saved'}
   for i,v in ipairs(pages)do if v==page then page=pages[(i-1+delta)%#pages+1];return end end
  end
  function api.render(p)
   pendingText=nil;meterText=nil
   local s=controller.status();draft=draft or(s.current and O.copy(s.current))
+  if draft then draft.comfort=draft.comfort or O.comfort.copy()end
   p.text('PERFORMANCE',90,65,1660,48,true)
-  p.text('Graphics presets, custom quality and performance measurements',94,143,1500,22)
-  local tabs={{'presets','Presets'},{'image','Image quality'},{'world','World & effects'},{'frames','Frame rate'},{'measure','Performance monitor'},{'saved','Saved presets'}}
-  for i,t in ipairs(tabs)do p.button((page==t[1]and'>  'or'')..t[2],90,245+(i-1)*86,365,function()page=t[1];p.refresh();p.focusContent()end,not s.pending,'tabs')end
+  p.text('Graphics, camera comfort and performance controls',94,143,1500,22)
+  local tabs={{'presets','Presets'},{'image','Image quality'},{'world','World & effects'},{'comfort','Camera & Comfort'},{'frames','Frame rate'},{'measure','Performance monitor'},{'saved','Saved presets'}}
+  for i,t in ipairs(tabs)do p.button((page==t[1]and'>  'or'')..t[2],90,245+(i-1)*73,365,function()page=t[1];p.refresh();p.focusContent()end,not s.pending,'tabs')end
   p.text('Active: '..s.label,94,760,350,23,true)
-  p.text('F9 / L3: open from game menus',94,825,345,19)
+  p.text('F9 / L3: open from game menus',94,875,345,19)
   p.text('Credits: kyotozx',94,925,340,16)
   p.button('Back to game menu',1370,915,440,p.close,not s.pending,'footer')
   if s.pending then
@@ -33,7 +35,7 @@ function M.new(ctx,controller,meter)
    p.text('Choose a starting point',525,232,1250,36,true)
    for i,preset in ipairs(O.presets)do
     local y=320+(i-1)*150
-    p.button(preset.name,525,y,365,function()draft=O.copy(preset.values);invoke(p,function()return controller.preview(draft,preset.name)end)end)
+    p.button(preset.name,525,y,365,function()draft=O.copy(preset.values);draft.comfort=O.comfort.copy(s.current.comfort);invoke(p,function()return controller.preview(draft,preset.name)end)end)
     p.text(preset.description,935,y+6,820,23)
    end
    p.text('Low and Ultra Low disable Lumen. Use Balanced if interiors become too dark.',529,790,1250,21)
@@ -63,6 +65,46 @@ function M.new(ctx,controller,meter)
     p.button('+',1680,y,100,function()adjust(1)end)
    end
    p.button('Preview custom settings',525,915,770,function()invoke(p,function()return controller.preview(draft,'Custom')end)end,true,'footer')
+  elseif page=='comfort'then
+   p.text('Camera & Comfort',525,232,1250,36,true)
+   p.button((comfortPage=='view'and'>  'or'')..'View & motion',525,305,600,function()comfortPage='view';p.refresh()end)
+   p.button((comfortPage=='controls'and'>  'or'')..'Camera controls',1160,305,615,function()comfortPage='controls';p.refresh()end)
+   local c=draft.comfort
+   local rows=comfortPage=='view'and{
+    {'blur','Motion blur','Disable motion blur without changing other effects.',c.blur and'Off'or'Game default'},
+    {'fov','Exploration FOV','Horizontal field of view. Default follows the game.',c.fov==0 and'Game default'or c.fov..' degrees'},
+    {'shake','Camera shake','Turn off exploration shakes. Scenes keep their own camera.',c.shake and'Off'or'Game default'},
+    {'sprint','Sprint camera effects','Disable sprint zoom, pullback and added blur.',c.sprint and'Off'or'Game default'},
+   }or{
+    {'smoothing','Camera smoothing','Reduced follows more closely. Off removes positional and rotational lag.',({'Game default','Reduced','Off'})[c.smoothing+1]},
+    {'horizontal','Horizontal sensitivity','Native camera turn speed for keyboard and controller.',string.format('%.0f%%',c.horizontal*100)},
+    {'vertical','Vertical sensitivity','Native vertical speed. Your invert-axis setting is preserved.',string.format('%.0f%%',c.vertical*100)},
+   }
+   for i,row in ipairs(rows)do
+    local key,label,hint,value=table.unpack(row);local y=397+(i-1)*88
+    p.text(label,529,y,690,25,true);p.text(hint,529,y+36,755,16)
+    local function change(delta)
+     if key=='fov'then
+      local values={0,60,65,70,75,80,85,90,95,100,105,110};local index=1
+      for j,n in ipairs(values)do if n<=c.fov then index=j end end
+      c.fov=values[math.max(1,math.min(#values,index+delta))]
+     elseif key=='smoothing'then c.smoothing=math.max(0,math.min(2,c.smoothing+delta))
+     elseif key=='horizontal'or key=='vertical'then c[key]=math.max(.25,math.min(2,math.floor(c[key]*100+delta*5+.5)/100))
+     else c[key]=not c[key]end
+     p.refresh()
+    end
+    p.button('-',1300,y,100,function()change(-1)end);p.text(value,1410,y+16,260,22,true)
+    p.button('+',1680,y,100,function()change(1)end)
+   end
+   local function previewComfort(value,label)
+    local values=O.copy(s.current);values.comfort=O.comfort.copy(value);draft=nil
+    invoke(p,function()return controller.preview(values,label)end)
+   end
+   p.button('Reduced Camera Motion',525,790,620,function()previewComfort(O.comfort.reduced,'Reduced Camera Motion')end)
+   p.button('Restore camera defaults',1180,790,600,function()previewComfort(O.comfort.defaults,'Camera defaults')end)
+   local cs=ctx.comfortStatus and ctx.comfortStatus()or{}
+   p.text(cs.error or'Camera controls apply during free exploration. Motion blur is a global setting.',529,860,1230,17)
+   p.button('Preview camera settings',525,915,770,function()previewComfort(c,'Custom camera')end,true,'footer')
   elseif page=='frames'then
    p.text('Frame rate',525,232,1250,36,true)
    p.text('Selected: '..(draft.cap==0 and'Unlimited'or string.format('%.0f FPS',draft.cap)),529,303,1200,25,true)
@@ -89,7 +131,7 @@ function M.new(ctx,controller,meter)
      return ok,why
     end)
    end,#(s.presets or{})<24)
-   p.text('Saves the settings in use, including changes made in the game options.',529,385,1250,19)
+   p.text('Saves graphics, frame limits and Camera & Comfort settings currently in use.',529,385,1250,19)
    local saved=s.presets or{};local pages=math.max(1,math.ceil(#saved/3));savedPage=math.min(savedPage,pages)
    if #saved==0 then p.text('No saved presets yet. Save your current setup to switch back to it later.',529,490,1200,24)end
    for i=(savedPage-1)*3+1,math.min(savedPage*3,#saved)do

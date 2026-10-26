@@ -5,7 +5,7 @@ Credits: kyotozx. MIT licensed. Contributions and pull requests are welcome.
 INSTALL
 Requires Clan Loader 0.3.0-rc5 or newer and its supported UE4SS installation.
 Supported game: Windows Steam build 24847281. ClanTools is not required.
-Save and close the game. Import Performance-0.2.0.zip with Add mod package in Clan Loader.
+Save and close the game. Import the Performance ZIP with Add mod package in Clan Loader.
 Start the game, open its original pause, main or settings menu, then select
 Performance. Keyboard shortcut: F9. Controller shortcut: L3 (left stick click).
 Navigate with arrows / D-pad / left stick. Right enters the settings area;
@@ -56,6 +56,15 @@ If the original game's options replace values, the mod reports the difference;
 it does not continuously fight the game's settings. Preview a preset to reapply.
 Recovery files: ue4ss/Mods/ClanPerformance/preferences.json and
 preferences.json.previous. Keep these files private; they are not package code.
+
+CAMERA & COMFORT
+View & motion: motion blur, exploration FOV, camera shake and sprint effects.
+Camera controls: smoothing and separate horizontal/vertical turn sensitivity.
+Reduced Camera Motion disables blur, exploration shakes, sprint FOV/pullback and
+camera lag; it sets FOV to 90 degrees and both sensitivities to 75 percent.
+Preview and keep changes. Restore camera defaults returns native behavior.
+Camera adjustments yield outside free exploration. Motion blur is global.
+Saved presets include these settings. Graphics presets keep your camera choices.
 
 MEASURE
 Performance monitor offers an optional top-right FPS overlay and a 30-second

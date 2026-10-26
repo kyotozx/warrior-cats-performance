@@ -1,11 +1,13 @@
 local dir=debug.getinfo(1,'S').source:gsub('^@',''):match('^(.*[/\\])')
 local ctx={root=dir..'../',valid=dofile(dir..'runtime_valid.lua').valid}
-local backend=dofile(dir..'backend.lua').new(ctx.valid)
+local backend=dofile(dir..'backend.lua').new(ctx.valid,ctx)
+ctx.comfortStatus=backend.comfortStatus
 local legacy=dofile(dir..'legacy.lua').read(ctx.root..'../ClanTools/settings-extensions.json',dofile(dir..'json.lua'))
 local controller=dofile(dir..'controller.lua').new(backend,dofile(dir..'store.lua').new(ctx.root..'preferences.json'),os.time,legacy)
 local meter=dofile(dir..'meter.lua').new()
 local panel,menu,owner,button,visual;local requested=false;local ticks=0;local lastError;local started=false
 local overlay,overlayText,worldAddress
+local comfortError
 local function cleanupOverlay()if ctx.valid(overlay)then overlay:RemoveFromParent()end;overlay=nil;overlayText=nil end
 RegisterKeyBind(Key.F9,function()requested=true end)
 RegisterKeyBind(Key.F8,function()requested=true end)
@@ -49,6 +51,9 @@ LoopInGameThreadWithDelay(100,function()
   ticks=ticks+1
   if not started and ticks%10==0 then local good=controller.start();started=good end
   controller.tick()
+  local cameraOK,cameraError=backend.tickComfort()
+  if not cameraOK and cameraError~=comfortError then print('[ClanPerformance] Camera & Comfort: '..tostring(cameraError)..'\n')end
+  comfortError=cameraOK and nil or cameraError
   if not panel then panel=dofile(dir..'native_panel.lua').new(ctx);menu=dofile(dir..'menu.lua').new(ctx,controller,meter);ctx.navigate=menu.navigate end
   panel.tick()
   if ticks%5==0 then

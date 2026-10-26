@@ -18,7 +18,9 @@ function M.move(buttons,index,command)
    local sameArea=(current.zone=='tabs')==(b.zone=='tabs')
    local eligible=horizontal and (b.zone=='tabs'or math.abs(dy)<1)or(not horizontal and sameArea)
    if eligible and forward>0 then
-    local cost=across*10000+forward
+    -- Vertical navigation follows the next row even when its controls have
+    -- different widths or alignment (camera subpages, values, then actions).
+    local cost=horizontal and(across*10000+forward)or(forward*10000+across)
     if not score or cost<score then best,score=i,cost end
    end
   end

@@ -1,4 +1,6 @@
 local M={}
+local dir=debug.getinfo(1,'S').source:gsub('^@',''):match('^(.*[/\\])')
+M.comfort=dofile(dir..'comfort_options.lua')
 M.groups={
  {'view','View distance','ViewDistance','Distant objects fade sooner at lower settings.'},
  {'aa','Anti-aliasing','AntiAliasing','Lower quality is cheaper but can shimmer in motion.'},
@@ -17,11 +19,11 @@ local function number(n,lo,hi)return type(n)=='number'and n==n and n>=lo and n<=
 function M.valid(v)
  if type(v)~='table'or not number(v.scale,25,100)or not number(v.cap,0,1000)or type(v.smooth)~='boolean'then return false end
  for _,g in ipairs(M.groups)do if not number(v[g[1]],0,4)or v[g[1]]%1~=0 then return false end end
- return true
+ return M.comfort.valid(v.comfort)
 end
 function M.equal(a,b)
  if not M.valid(a)or not M.valid(b)or math.abs(a.scale-b.scale)>.1 or math.abs(a.cap-b.cap)>.01 or a.smooth~=b.smooth then return false end
- for _,g in ipairs(M.groups)do if a[g[1]]~=b[g[1]]then return false end end;return true
+ for _,g in ipairs(M.groups)do if a[g[1]]~=b[g[1]]then return false end end;return M.comfort.equal(a.comfort,b.comfort)
 end
 M.presets={
  {id='balanced',name='Balanced',description='Preserves Lumen lighting. Reduced shadows and effects; 83% render scale.',

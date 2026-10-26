@@ -47,7 +47,7 @@ test('changing values preserves the page and affects only the selected draft fie
 end)
 test('all tab pages and both footer actions remain reachable',function()
  local m,p,get=fixture()
- for page=1,6 do
+ for page=1,7 do
   local b=get();b[page].fn();b=get()
   local start=Nav.firstContent(b);assert(start)
   local seen={[start]=true};local queue={start};local n=1
@@ -58,6 +58,16 @@ test('all tab pages and both footer actions remain reachable',function()
   for i,v in ipairs(b)do assert(not v.enabled or seen[i],page..': unreachable '..v.label)end
  end
 end)
+test('camera subpage navigation visits every setting row before preset actions',function()
+ local m,p,get=fixture();local b=get();b[4].fn();b=get()
+ local i=Nav.firstContent(b)
+ for row=1,4 do
+  i=Nav.move(b,i,2)
+  assert(b[i].label=='-'and b[i].y==397+(row-1)*88,'Camera row '..row..' skipped')
+ end
+ i=Nav.move(b,i,2);assert(b[i].label=='Restore camera defaults')
+end)
+
 test('pending confirmation cannot switch tabs and disabled controls are skipped',function()
  local m,p,get,status=fixture();status.pending=true;status.seconds=20;p.refresh()
  assert(m.navigate(1)==false)

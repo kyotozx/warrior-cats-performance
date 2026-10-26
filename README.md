@@ -2,7 +2,7 @@
 
 # Performance
 
-Graphics presets, custom settings and FPS controls for **Warrior Cats: Clans of the Forest**, with menus that use the game's own fonts, buttons and backgrounds.
+Graphics presets, camera comfort settings and FPS controls for **Warrior Cats: Clans of the Forest**, with menus that use the game's own fonts, buttons and backgrounds.
 
 [Download Performance](https://github.com/kyotozx/warrior-cats-performance/releases/latest) · [Get Clan Loader](https://github.com/kyotozx/warrior-cats-clan-tools/releases) · [Report a bug](https://github.com/kyotozx/warrior-cats-performance/issues)
 
@@ -14,7 +14,8 @@ Graphics presets, custom settings and FPS controls for **Warrior Cats: Clans of 
 - **Individual quality controls** for render scale, lighting, shadows, reflections, textures, anti-aliasing, effects, foliage, view distance and shading.
 - **Custom or unlimited FPS**, including presets up to 360 FPS and custom values from 15 to 1000.
 - **Optional FPS counter** and a 30-second measurement to compare your settings.
-- **Up to 24 named presets** that capture your current graphics configuration.
+- **Camera & Comfort** with motion blur, FOV, smoothing, shake, sprint effects and separate sensitivity controls. Includes a Reduced Camera Motion preset.
+- **Up to 24 named presets** that capture your current graphics and camera configuration.
 - **20-second confirmation timer**, automatic preview recovery and a button to restore your original settings.
 - **Keyboard and controller navigation** throughout, including the preset naming screen.
 
@@ -39,7 +40,7 @@ Requires the Windows Steam game, build **24847281**, and **Clan Loader 0.3.0-rc5
 
 1. Save and close the game.
 2. Install or update [Clan Loader](https://github.com/kyotozx/warrior-cats-clan-tools/releases) using its release ZIP and **Install / update suite**. If you only want Performance, disable Clan Tools in the manager afterward.
-3. Download `Performance-0.2.0.zip` from [Releases](https://github.com/kyotozx/warrior-cats-performance/releases/latest). Keep this ZIP intact.
+3. Download the named `Performance` ZIP from [Releases](https://github.com/kyotozx/warrior-cats-performance/releases/latest). Keep this ZIP intact.
 4. In Clan Loader, choose **Add mod package**, select the Performance ZIP and leave Performance enabled.
 5. Start the game. Open **Performance** from the original main, pause or settings menu with **F9 / L3**.
 
@@ -74,6 +75,25 @@ Low is a starting point for integrated graphics. Lower render scale reduces 3D c
 Choose **Saved presets > Save current settings** to keep your own setup. This captures the values currently in use, including supported changes from the game's options. Preview and keep pending edits before saving them as a preset.
 
 Settings are stored in `ue4ss/Mods/ClanPerformance/preferences.json`. Updates preserve this file. The internal folder name stays `ClanPerformance` for compatibility with earlier versions.
+
+## Camera & Comfort
+
+Open **Camera & Comfort** in Performance. It uses the same game menus, fonts and controller navigation as the other pages.
+
+| Setting | Options |
+| --- | --- |
+| Motion blur | Game default or Off, independent of other post processing |
+| Exploration FOV | Game default or 60 to 110 degrees |
+| Camera shake | Game default or Off during exploration |
+| Sprint camera effects | Keep or disable the sprint FOV increase, camera pullback and extra blur |
+| Camera smoothing | Game default, Reduced or Off |
+| Horizontal / vertical sensitivity | Separate 25% to 200% controls for keyboard and controller |
+
+**Reduced Camera Motion** turns off blur, exploration shakes, sprint camera effects and camera lag, sets the exploration FOV to 90 degrees, and sets both turn speeds to 75%. You can adjust every option afterward. It changes no graphics quality or frame limit settings.
+
+Choose **Preview camera settings**, then keep or revert the changes. **Restore camera defaults** returns these controls to the game's behavior. Camera adjustments run during free exploration and yield to menus, conversations, combat, photo mode and scripted camera paths. Motion blur is a global rendering setting. Your existing inverted-axis settings remain in effect.
+
+Saved presets include Camera & Comfort. Selecting Balanced, Low or Ultra Low preserves your current camera preferences. Older preferences load with the game's camera defaults. These options are personal comfort controls; they do not guarantee that everyone will find the movement comfortable.
 
 ## Recovery and limits
 
