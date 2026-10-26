@@ -1,0 +1,14 @@
+/dist/
+/analysis/
+**/preferences.json*
+*.zip
+*.log
+*.tmp
+*.sav
+*.dll
+*.exe
+*.uasset
+*.pak
+*.ucas
+*.utoc
+.env*

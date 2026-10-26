@@ -1,0 +1,17 @@
+name: Checks
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  lua:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - run: sudo apt-get update && sudo apt-get install -y lua5.4
+      - run: for test in mods/ClanPerformance/tests/*.test.lua; do lua5.4 "$test" || exit 1; done
+  package:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - shell: powershell
+        run: ./mods/ClanPerformance/Build-Package.ps1
