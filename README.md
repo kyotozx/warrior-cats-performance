@@ -45,6 +45,8 @@ Requires the Windows Steam game, build **24847281**, and **Clan Loader 0.3.0-rc5
 
 The GitHub source archives are for development. Install the named Performance ZIP through the manager.
 
+If Clan Loader cannot load `ThemeAssets.dll` and shows error `0x80131515`, Windows may have blocked the downloaded files. Close the loader, right-click its release ZIP, select **Properties > Unblock > Apply**, then extract it again into a new folder. See the [loader troubleshooting guide](https://github.com/kyotozx/warrior-cats-clan-tools#troubleshooting) if Unblock is not shown.
+
 No graphics preset is applied on a fresh install. When upgrading from Clan Tools, your existing FPS counter preference and custom frame-limit behavior are imported if Performance has no preferences yet. Existing Performance preferences take priority. Update Clan Tools to rc5 or newer to remove its previous FPS controls and counter.
 
 ## Controls
