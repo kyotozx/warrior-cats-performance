@@ -6,7 +6,7 @@ M.fields={fov=0x3f8,sprintBlur=0x3fc,sprintArm=0x41c,sprintArmHandheld=0x420,spr
 function M.verify(path)
  local f=assert(io.open(path,'rb'),'Camera controls require the supported game executable.')
  local ok,why=pcall(function()
-  assert(f:seek('end')==layout.size,'Camera controls require Steam build 24847281.')
+  assert(f:seek('end')==layout.size,'Camera controls require Steam build 26184573.')
   for _,p in ipairs(layout.probes)do
    f:seek('set',p.offset);local bytes=assert(f:read(#p.hex/2))
    local hex=bytes:gsub('.',function(c)return string.format('%02x',string.byte(c))end)

@@ -14,7 +14,8 @@ function M.new(ctx,controller,meter)
   pendingText=nil;meterText=nil
   local s=controller.status();draft=draft or(s.current and O.copy(s.current))
   if draft then draft.comfort=draft.comfort or O.comfort.copy()end
-  p.text('PERFORMANCE',90,65,1660,48,true)
+  if p.icon then p.icon('performance',90,70,64)end
+  p.text('PERFORMANCE',176,65,1570,48,true)
   p.text('Graphics, camera comfort and performance controls',94,143,1500,22)
   local tabs={{'presets','Presets'},{'image','Image quality'},{'world','World & effects'},{'comfort','Camera & Comfort'},{'frames','Frame rate'},{'measure','Performance monitor'},{'saved','Saved presets'}}
   for i,t in ipairs(tabs)do p.button((page==t[1]and'>  'or'')..t[2],90,245+(i-1)*73,365,function()page=t[1];p.refresh();p.focusContent()end,not s.pending,'tabs')end
