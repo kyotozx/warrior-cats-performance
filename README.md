@@ -38,7 +38,7 @@ Graphics presets, camera comfort settings and FPS controls for **Warrior Cats: C
 
 Requires the Windows Steam game, build **26184573**, and **Clan Loader 0.3.0-rc7 or newer**. Clan Tools is optional.
 
-For game patch 1.1, install [Performance 0.3.2](https://github.com/kyotozx/warrior-cats-performance/releases/tag/v0.3.2) with [Clan Loader rc9](https://github.com/kyotozx/warrior-cats-clan-tools/releases/tag/v0.3.0-rc9). Loader rc6 and earlier target the previous game build.
+For game patch 1.1, install [Performance 0.3.2](https://github.com/kyotozx/warrior-cats-performance/releases/tag/v0.3.2) with [Clan Loader rc10](https://github.com/kyotozx/warrior-cats-clan-tools/releases/tag/v0.3.0-rc10). Open the desktop loader from the new ZIP: older copies can reject manual imports with an unsupported-build or ZIP-path error even when the game is up to date.
 
 1. Save and close the game.
 2. Install or update [Clan Loader](https://github.com/kyotozx/warrior-cats-clan-tools/releases) using its release ZIP and **Install / update suite**. If you only want Performance, disable Clan Tools in the manager afterward.
