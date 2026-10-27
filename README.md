@@ -36,9 +36,9 @@ Graphics presets, camera comfort settings and FPS controls for **Warrior Cats: C
 
 ## Install
 
-Requires the Windows Steam game, build **26184573**, and **Clan Loader 0.3.0-rc7 or newer**. Clan Tools is optional.
+Requires the Windows Steam game, build **26184573**. Use **Clan Loader rc11 or newer** to install the package. Clan Tools is optional.
 
-For game patch 1.1, install [Performance 0.3.2](https://github.com/kyotozx/warrior-cats-performance/releases/tag/v0.3.2) with [Clan Loader rc10](https://github.com/kyotozx/warrior-cats-clan-tools/releases/tag/v0.3.0-rc10). Open the desktop loader from the new ZIP: older copies can reject manual imports with an unsupported-build or ZIP-path error even when the game is up to date.
+For game patch 1.1, install [Performance 0.3.2](https://github.com/kyotozx/warrior-cats-performance/releases/tag/v0.3.2) with the [latest Clan Loader](https://github.com/kyotozx/warrior-cats-clan-tools/releases/latest). Close any older desktop loader and open `ClanLoader.exe` from the new ZIP's extracted folder. rc11 includes the package import fixes and automatically handles the Windows download block on its theme DLL.
 
 1. Save and close the game.
 2. Install or update [Clan Loader](https://github.com/kyotozx/warrior-cats-clan-tools/releases) using its release ZIP and **Install / update suite**. If you only want Performance, disable Clan Tools in the manager afterward.
@@ -48,9 +48,20 @@ For game patch 1.1, install [Performance 0.3.2](https://github.com/kyotozx/warri
 
 The GitHub source archives are for development. Install the named Performance ZIP through the manager.
 
-If Clan Loader cannot load `ThemeAssets.dll` and shows error `0x80131515`, Windows may have blocked the downloaded files. Close the loader, right-click its release ZIP, select **Properties > Unblock > Apply**, then extract it again into a new folder. See the [loader troubleshooting guide](https://github.com/kyotozx/warrior-cats-clan-tools#troubleshooting) if Unblock is not shown.
+If an older loader shows a `ThemeAssets.dll` error (`0x80131515`), close it and open the extracted rc11 or newer loader. No manual DLL changes or unblocking are needed. See the [loader troubleshooting guide](https://github.com/kyotozx/warrior-cats-clan-tools#troubleshooting) for details.
 
 No graphics preset is applied on a fresh install. When upgrading from Clan Tools, your existing FPS counter preference and custom frame-limit behavior are imported if Performance has no preferences yet. Existing Performance preferences take priority. Update Clan Tools to rc5 or newer to remove its previous FPS controls and counter.
+
+## Update Performance
+
+**Install / update suite** updates Clan Loader and Clan Tools only. Performance updates are installed separately:
+
+1. Save and close the game.
+2. Download the latest [Performance ZIP](https://github.com/kyotozx/warrior-cats-performance/releases/latest). Keep it intact.
+3. Open the current desktop loader and import the ZIP through **Add mod package**.
+4. Restart the game.
+
+Your saved presets and settings are preserved. You do not need to uninstall Performance first. The loader's update notice opens the download page; it does not install updates automatically.
 
 ## Controls
 
