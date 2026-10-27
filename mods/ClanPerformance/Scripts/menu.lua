@@ -53,7 +53,7 @@ function M.new(ctx,controller,meter)
     p.text(g and g[4]or(key=='scale'and'Internal 3D resolution. Interface stays sharp.'or'Use one mod to manage the frame limit.'),529,y+35,755,16)
     local function adjust(delta)
      if g then draft[key]=math.max(0,math.min(4,draft[key]+delta))
-     elseif key=='scale'then draft.scale=math.max(50,math.min(100,math.floor(draft.scale+delta*5+.5)))
+     elseif key=='scale'then draft.scale=math.max(25,math.min(100,math.floor(draft.scale+delta*5+.5)))
      else
       local caps={0,30,40,45,60,75,90,120,144,165,240};local idx=1
       for j,n in ipairs(caps)do if n<=draft.cap then idx=j end end
