@@ -9,6 +9,18 @@ function M.new(valid,ctx)
   local s=e.GameUserSettings;assert(valid(s),'Game video settings unavailable');return e,s
  end
  local api={}
+ function api.monitorContext()
+  if not valid(cachedEngine)then cachedEngine=FindFirstOf('GameEngine')end
+  local e=cachedEngine
+  if not valid(e)or not valid(e.GameViewport)then return end
+  local world=e.GameViewport.World;if not valid(world)then return end
+  local gs=world.GameState
+  local class=StaticFindObject('/Script/Wrc.WrcGameplayGameState')
+  if not valid(gs)or not valid(class)or not gs:IsA(class)then return end
+  local character=gs.MainCharacter
+  local pc=valid(character)and character.Controller or nil
+  return world,gs,valid(pc)and pc or nil
+ end
  function api.read()
   local e,s=native();local n,v,lo,hi={},{},{},{}
   s:GetResolutionScaleInformationEx(n,v,lo,hi)

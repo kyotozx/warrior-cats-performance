@@ -14,6 +14,15 @@ native.ApplyNonResolutionSettings=function()applied=applied+1 end;native.SaveSet
 local b=B.new(function(v)return v~=nil end)
 assert(O.equal(b.read(),values));b.apply(O.presets[2].values);assert(O.equal(b.read(),O.presets[2].values)and applied==1 and saved==0)
 b.save();assert(saved==1)
+local gameplayClass={}
+StaticFindObject=function(path)assert(path=='/Script/Wrc.WrcGameplayGameState');return gameplayClass end
+local activeController={};local activeState={MainCharacter={Controller=activeController},IsA=function(_,class)return class==gameplayClass end}
+local activeWorld={GameState=activeState};engine.GameViewport={World=activeWorld}
+local w,g,p=b.monitorContext();assert(w==activeWorld and g==activeState and p==activeController)
+local nextState={IsA=function()return true end};local nextWorld={GameState=nextState};engine.GameViewport.World=nextWorld
+w,g,p=b.monitorContext();assert(w==nextWorld and g==nextState and p==nil,'Read the active viewport after switching saves')
+engine.GameViewport.World={GameState={IsA=function()return false end}}
+assert(b.monitorContext()==nil,'Main menu and non-gameplay worlds are not campaign samples')
 for _,preset in ipairs(O.presets)do b.apply(preset.values);assert(O.equal(b.read(),preset.values),preset.name..' failed adapter readback')end
 engine.bUseFixedFrameRate=true;local old=O.copy(values);assert(not pcall(b.apply,O.presets[1].values));assert(O.equal(b.read(),old))
 print('PASS reflected native adapter, output tables, all quality groups and fixed timestep guard')

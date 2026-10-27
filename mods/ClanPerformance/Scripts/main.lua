@@ -18,18 +18,24 @@ RegisterHook('/Script/SwtEngine.GuiControl:OnControlClick',function(o)
  if ctx.valid(button)and ctx.valid(o:get())and o:get():GetAddress()==button:GetAddress()then requested=true end
 end)
 local function monitor()
- if not controller.counterEnabled()and not meter.status().remaining then cleanupOverlay();return end
- local gs=FindFirstOf('WrcGameplayGameState')
- if not ctx.valid(gs)then cleanupOverlay();if worldAddress then meter.reset();worldAddress=nil end;return end
- local world=gs:GetWorld();if not ctx.valid(world)then cleanupOverlay();return end
- local addr=world:GetAddress();if addr~=worldAddress then cleanupOverlay();meter.reset();worldAddress=addr end
+ if not controller.counterEnabled()and not meter.status().remaining then cleanupOverlay();worldAddress=nil;return end
+ local world,gs,pc=backend.monitorContext()
+ if not ctx.valid(world)then cleanupOverlay();if worldAddress then meter.reset();worldAddress=nil end;return end
+ local addr=world:GetAddress()
+ if addr~=worldAddress then
+  cleanupOverlay()
+  -- The first sample binds a new measurement; only an actual transition
+  -- after that binding invalidates it.
+  if worldAddress~=nil then meter.reset()end
+  worldAddress=addr
+ end
  local frames,seconds,paused=backend.sample(gs)
  meter.sample(frames,seconds,paused)
  if paused then cleanupOverlay();return end
  local m=meter.status()
  if not controller.counterEnabled()and not m.remaining then cleanupOverlay();return end
  if not ctx.valid(overlay)then
-  local pc=FindFirstOf('WrcGameplayPlayerController');if not ctx.valid(pc)then return end
+  if not ctx.valid(pc)then return end
   local lib=StaticFindObject('/Script/UMG.Default__WidgetBlueprintLibrary')
   local layout=StaticFindObject('/Script/UMG.Default__WidgetLayoutLibrary')
   local class=LoadAsset('/Game/Art/UXD/Blueprints/Controls/gui_common/WBP_GuiClanScreenBackground.WBP_GuiClanScreenBackground_C')
