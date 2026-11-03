@@ -17,7 +17,7 @@ $icon=Join-Path $stage 'payload/ClanPerformance/assets/icons/performance.png'
 $null=New-Item -ItemType Directory -Path (Split-Path $icon -Parent) -Force
 Copy-Item -LiteralPath (Join-Path $PSScriptRoot 'assets/icons/performance.png') -Destination $icon
 $files+=@{path='assets/icons/performance.png';sha256=(Get-FileHash -LiteralPath $icon -Algorithm SHA256).Hash.ToLowerInvariant()}
-$manifest=[ordered]@{schema=1;loaderApi=1;gameBuild='26184573';id='ClanPerformance';name='Performance';version=$Version;
+$manifest=[ordered]@{schema=1;loaderApi=1;gameBuild='26337109';id='ClanPerformance';name='Performance';version=$Version;
  description='Graphics, Camera & Comfort, saved presets and FPS controls. Open from the game menus [F9 / L3].';dependencies=@('ClanLoader');files=$files}
 $encoding=[Text.UTF8Encoding]::new($false)
 [IO.File]::WriteAllText((Join-Path $stage 'mod.json'),($manifest|ConvertTo-Json -Depth 6),$encoding)

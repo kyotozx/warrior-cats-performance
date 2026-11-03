@@ -4,7 +4,7 @@ Credits: kyotozx. MIT licensed. Contributions and pull requests are welcome.
 
 INSTALL
 Requires Clan Loader 0.3.0-rc7 or newer and its supported UE4SS installation.
-Supported game: Windows Steam build 26184573. ClanTools is not required.
+Supported game: Windows Steam build 26337109. ClanTools is not required.
 Save and close the game. Import the Performance ZIP with Add mod package in Clan Loader.
 Start the game, open its original pause, main or settings menu, then select
 Performance. Keyboard shortcut: F9. Controller shortcut: L3 (left stick click).
